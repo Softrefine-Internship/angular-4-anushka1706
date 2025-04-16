@@ -1,0 +1,136 @@
+<div class="user-container">
+  <div class="top-group">
+    <div class="search-filter-group">
+      <label for="" class="searchLabel"></label>
+      <input
+        type="text"
+        class="searchTable"
+        [(ngModel)]="searchValue"
+        placeholder="Search users..."
+        (ngModelChange)="onSearch()"
+      />
+      <div class="filters">
+        <select
+          class="filter-dropdown"
+          [(ngModel)]="selectedField"
+          (change)="onFieldChange()"
+        >
+          <option value="">Select Field</option>
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="age">Age</option>
+          <option value="gender">Gender</option>
+          <option value="birthDate">Birthdate</option>
+          <option value="bloodGroup">Blood group</option>
+        </select>
+        <ng-container [ngSwitch]="selectedField">
+          <select
+            class="filter-dropdown"
+            *ngSwitchCase="'firstName'"
+            [(ngModel)]="selectedValue"
+            (change)="applyFilters()"
+          >
+            <option value="asc">A-Z</option>
+            <option value="dsc">Z-A</option>
+          </select>
+
+          <select
+            class="filter-dropdown"
+            *ngSwitchCase="'lastName'"
+            [(ngModel)]="selectedValue"
+            (change)="applyFilters()"
+          >
+            <option value="asc">A-Z</option>
+            <option value="dsc">Z-A</option>
+          </select>
+
+          <select
+            class="filter-dropdown"
+            *ngSwitchCase="'age'"
+            [(ngModel)]="selectedValue"
+            (change)="applyFilters()"
+          >
+            <option value="asc">Ascending</option>
+            <option value="dsc">Descending</option>
+          </select>
+          <select
+            class="filter-dropdown"
+            *ngSwitchCase="'bloodGroup'"
+            [(ngModel)]="selectedValue"
+            (change)="applyFilters()"
+          >
+            <option value="a+">A+</option>
+            <option value="b+">B+</option>
+            <option value="ab+">AB+</option>
+            <option value="o+">O+</option>
+            <option value="a-">A-</option>
+            <option value="b-">B-</option>
+            <option value="ab-">AB-</option>
+            <option value="o-">O-</option>
+          </select>
+          <select
+            class="filter-dropdown"
+            *ngSwitchCase="'gender'"
+            [(ngModel)]="selectedValue"
+            (change)="applyFilters()"
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <select
+            class="filter-dropdown"
+            *ngSwitchCase="'birthDate'"
+            [(ngModel)]="selectedValue"
+            (change)="applyFilters()"
+          >
+            <option value="oldest">Oldest to Newest</option>
+            <option value="newest">Newest to Oldest</option>
+          </select>
+        </ng-container>
+      </div>
+    </div>
+    <button class="reset-btn" (click)="onReset()">Reset filters</button>
+  </div>
+  <div class="table-div">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Username</th>
+          <th>Birth Date</th>
+          <th>Blood Group</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="userList.length > 0; else noUsers">
+        <tr
+          *ngFor="let user of userList; let i = index"
+          class="user-rows"
+          appRowColor
+          [index]="i"
+        >
+          <td>{{ user.id }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.birthDate }}</td>
+          <td>{{ user.bloodGroup }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noUsers>
+    <div class="no-user-text">
+      <p>No user found</p>
+    </div>
+  </ng-template>
+</div>
